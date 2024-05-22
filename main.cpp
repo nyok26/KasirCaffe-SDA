@@ -5,7 +5,7 @@ int main() {
     vector<AntrianKasir> daftarAntrian;
     vector<Barang> daftarBarang;
 
-    while (true) {
+    while (false) {
         cout << "=========================================" << endl;
         cout << setw(15) << left << "Dashboard" << endl;
         cout << "=========================================" << endl;
