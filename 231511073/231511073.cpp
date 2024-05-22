@@ -14,7 +14,7 @@ void tampilkanAntrian(const vector<AntrianKasir> &daftarAntrian, const vector<Ba
         while (current != nullptr) {
             cout << "-----------------------------------------" << endl;
             cout << "Pelanggan: " << current->nama << endl;
-            cout << "Barang yang dipilih:" << endl;
+            cout << "Menu yang dibeli:" << endl;
             for (size_t i = 0; i < current->keranjangBelanja.size(); ++i) {
                 cout << setw(3) << right << i + 1 << ". " << setw(15) << left << current->keranjangBelanja[i].nama << " (Rp" << current->keranjangBelanja[i].harga << ")" << endl;
             }
@@ -34,13 +34,13 @@ void tampilkanAntrian(const vector<AntrianKasir> &daftarAntrian, const vector<Ba
 void tambahBarang(vector<Barang> &daftarBarang) {
     string namaBarang;
     double hargaBarang;
-    cout << "Masukkan nama barang: ";
+    cout << "Masukkan nama menu: ";
     cin >> namaBarang;
-    cout << "Masukkan harga barang: ";
+    cout << "Masukkan harga menu: ";
     cin >> hargaBarang;
     Barang barang = {namaBarang, hargaBarang};
     daftarBarang.push_back(barang);
-    cout << "Barang berhasil ditambahkan." << endl;
+    cout << "Menu berhasil ditambahkan." << endl;
 }
 
 // Fungsi untuk login admin

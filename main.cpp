@@ -32,7 +32,7 @@ int main() {
                 while (true) {
                     cout << "\nMenu Admin:" << endl;
                     cout << "1. Tambah Kasir" << endl;
-                    cout << "2. Tambah Barang" << endl;
+                    cout << "2. Tambah Menu" << endl;
                     cout << "3. Tampilkan Antrian" << endl;
                     cout << "4. Logout" << endl;
                     cout << "Pilih menu: ";
@@ -92,9 +92,9 @@ int main() {
                 cout << "Login berhasil sebagai pelanggan." << endl;
                 while (true) {
                     cout << "\nMenu Pelanggan:" << endl;
-                    cout << "1. Tambah barang ke keranjang" << endl;
-                    cout << "2. Lihat keranjang belanja" << endl;
-                    cout << "3. Checkout" << endl;
+                    cout << "1. Pesan menu" << endl;
+                    cout << "2. Lihat pesanan anda" << endl;
+                    cout << "3. Bayar" << endl;
                     cout << "4. Logout" << endl;
                     cout << "Pilih menu: ";
 
@@ -116,17 +116,17 @@ int main() {
                             break;
                         }
 
-                        cout << "Daftar barang yang tersedia:" << endl;
+                        cout << "Daftar Menu yang tersedia:" << endl;
                         tampilkanDaftarBarang(daftarBarang);
 
                         while (true) {
                             int nomorBarang;
-                            cout << "Masukkan nomor barang yang ingin Anda beli (0 untuk selesai): ";
+                            cout << "Masukkan nomor Menu yang ingin Anda beli (0 untuk selesai): ";
                             cin >> nomorBarang;
                             if (nomorBarang == 0) {
                                 break; // Keluar dari loop jika pelanggan memilih untuk selesai
                             } else if (nomorBarang < 0 || nomorBarang > daftarBarang.size()) {
-                                cout << "Barang tidak ditemukan." << endl;
+                                cout << "Menu tidak ditemukan." << endl;
                                 continue; // Kembali ke pengulangan berikutnya dalam loop
                             }
 
@@ -134,7 +134,7 @@ int main() {
                             Barang barangDibeli = daftarBarang[nomorBarang - 1];
                             Pelanggan pelanggan = {username, {barangDibeli}, nullptr};
                             tambahPelangganKeAntrian(daftarAntrian[nomorKasir], pelanggan);
-                            cout << "Barang berhasil ditambahkan ke keranjang." << endl;
+                            cout << "Menu berhasil ditambahkan ke keranjang." << endl;
                         }
                         break;
                     }
@@ -155,7 +155,7 @@ int main() {
                             }
                         }
                         if (!keranjangDitemukan) {
-                            cout << "Anda belum memilih kasir atau keranjang belanja Anda kosong." << endl;
+                            cout << "Anda belum memilih kasir atau Anda belum pesan." << endl;
                         }
                         break;
                     }
@@ -169,24 +169,24 @@ int main() {
                                 if (current->nama == username) {
                                     double totalHarga = 0.0;
                                     while (true) {
-                                        cout << "Keranjang Belanja Anda:" << endl;
+                                        cout << "Pesanan anda :" << endl;
                                         for (int i = 0; i < current->keranjangBelanja.size(); ++i) {
                                             cout << i + 1 << ". " << current->keranjangBelanja[i].nama << " (Rp" << current->keranjangBelanja[i].harga << ")" << endl;
                                         }
-                                        cout << "Masukkan nomor barang yang ingin Anda checkout (0 untuk selesai): ";
+                                        cout << "Masukkan nomor Menu yang ingin Anda Bayar (0 untuk selesai): ";
                                         int nomorBarang;
                                         cin >> nomorBarang;
                                         if (nomorBarang == 0) {
                                             break;
                                         } else if (nomorBarang < 1 || nomorBarang > current->keranjangBelanja.size()) {
-                                            cout << "Barang tidak ditemukan." << endl;
+                                            cout << "Menu tidak ditemukan." << endl;
                                             continue;
                                         }
                                         totalHarga += current->keranjangBelanja[nomorBarang - 1].harga;
                                         current->keranjangBelanja.erase(current->keranjangBelanja.begin() + (nomorBarang - 1));
                                     }
 
-                                    cout << "Total harga belanja: Rp" << totalHarga << endl;
+                                    cout << "Total harga pesanan anda : Rp" << totalHarga << endl;
                                     if (current->keranjangBelanja.empty()) {
                                         // Hapus pelanggan dari antrian
                                         if (prev == nullptr) {
@@ -198,7 +198,7 @@ int main() {
                                             antrian.tail = prev;
                                         }
                                         delete current;
-                                        cout << "Anda telah checkout dan dihapus dari antrian." << endl;
+                                        cout << "Anda telah bayar dan dihapus dari antrian." << endl;
                                     }
                                     break;
                                 }

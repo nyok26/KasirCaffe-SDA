@@ -25,7 +25,7 @@ void tambahPelangganKeAntrian(AntrianKasir &antrian, Pelanggan &pelanggan) {
 
 // Fungsi untuk menampilkan keranjang belanja pelanggan
 void tampilkanKeranjangBelanja(const AntrianKasir &antrian, const string &username) {
-    cout << "Keranjang Belanja " << username << " pada Kasir " << antrian.namaKasir << ":" << endl;
+    cout << "Pesanan " << username << " pada Kasir " << antrian.namaKasir << ":" << endl;
     Pelanggan *current = antrian.head;
     while (current != nullptr) {
         if (current->nama == username) {
@@ -38,7 +38,7 @@ void tampilkanKeranjangBelanja(const AntrianKasir &antrian, const string &userna
 }
 
 void tampilkanDaftarBarang(const vector<Barang> &daftarBarang) {
-    cout << "Daftar Barang:" << endl;
+    cout << "Daftar Menu:" << endl;
     for (int i = 0; i < daftarBarang.size(); ++i) {
         cout << i + 1 << ". " << daftarBarang[i].nama << " (Rp" << daftarBarang[i].harga << ")" << endl;
     }
