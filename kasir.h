@@ -12,10 +12,11 @@
 using namespace std;
 
 // Struktur data untuk Barang
-struct Barang
-{
+struct Barang {
     string nama;
     double harga;
+    Barang() {}  // Konstruktor default kosong
+    Barang(const string& n, double h) : nama(n), harga(h) {}
 };
 
 // Struktur data untuk Pelanggan

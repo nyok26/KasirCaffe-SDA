@@ -31,14 +31,20 @@ void tampilkanAntrian(const vector<AntrianKasir> &daftarAntrian, const vector<Ba
 
 
 // Fungsi untuk menambahkan barang dan harganya
-void tambahBarang(vector<Barang> &daftarBarang) {
+void tambahBarang(vector<Barang>& daftarBarang) {
     string namaBarang;
     double hargaBarang;
     cout << "Masukkan nama menu: ";
-    cin >> namaBarang;
+    cin >> ws; // Mengabaikan karakter whitespace di awal
+    getline(cin, namaBarang);
+
     cout << "Masukkan harga menu: ";
     cin >> hargaBarang;
-    Barang barang = {namaBarang, hargaBarang};
+
+    cout << "Nama menu yang dimasukkan: " << namaBarang << endl;
+    cout << "Harga menu yang dimasukkan: " << hargaBarang << endl;
+
+    Barang barang(namaBarang, hargaBarang);
     daftarBarang.push_back(barang);
     cout << "Menu berhasil ditambahkan." << endl;
 }

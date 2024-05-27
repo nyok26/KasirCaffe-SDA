@@ -37,11 +37,12 @@ void tampilkanKeranjangBelanja(const AntrianKasir &antrian, const string &userna
     }
 }
 
-void tampilkanDaftarBarang(const vector<Barang> &daftarBarang) {
+void tampilkanDaftarBarang(const vector<Barang>& daftarBarang) {
     cout << "Daftar Menu:" << endl;
     for (int i = 0; i < daftarBarang.size(); ++i) {
-        cout << i + 1 << ". " << daftarBarang[i].nama << " (Rp" << daftarBarang[i].harga << ")" << endl;
+        cout << i + 1 << ". " << daftarBarang[i].nama << " (Rp " << daftarBarang[i].harga << ")" << endl;
     }
+    cout << endl;
 }
 
 // Fungsi untuk register pelanggan

@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <vector>
 #include <fstream>
+#include <limits>
 #include "../kasir.h"
 
 void tampilkanAntrian(const vector<AntrianKasir> &daftarAntrian, const vector<Barang> &daftarBarang);
