@@ -9,7 +9,7 @@ int main()
     while (true)
     {
         cout << "=========================================" << endl;
-        cout << setw(15) << left << "Dashboard" << endl;
+        cout << setw(15) << left << "Dashboard Kasir Caffe" << endl;
         cout << "=========================================" << endl;
         cout << "Menu:" << endl;
         cout << "1. Login Admin" << endl;
@@ -42,7 +42,8 @@ int main()
                     cout << "3. Tampilkan Antrian" << endl;
                     cout << "4. Tampilkan Daftar Menu" << endl;
                     cout << "5. Tampilkan Daftar Kasir" << endl;
-                    cout << "6. Logout" << endl;
+                    cout << "6. Hapus Barang" << endl;
+                    cout << "7. Logout" << endl;
                     cout << "Pilih menu: ";
 
                     int pilihanAdmin;
@@ -58,7 +59,7 @@ int main()
                         cin >> namaKasir;
                         AntrianKasir antrian = {namaKasir, nullptr, nullptr};
                         daftarAntrian.push_back(antrian);
-                        cout << "Kasir berhasil ditambahkan." << endl;
+                        cout << "Kasir " << namaKasir << " berhasil ditambahkan." << endl;
                         break;
                     }
                     case 2:
@@ -76,6 +77,11 @@ int main()
                     case 4:
                     {
                         system("CLS");
+                        if (daftarBarang.empty())
+                        {
+                            cout << "Belum ada menu yang ditambahkan" << endl;
+                            break;
+                        }
                         tampilkanDaftarBarang(daftarBarang);
                         cout << endl;
                         break;
@@ -98,6 +104,12 @@ int main()
                     case 6:
                     {
                         system("CLS");
+                        hapusBarang(daftarBarang, daftarAntrian);
+                        break;
+                    }
+                    case 7:
+                    {
+                        system("CLS");
                         cout << "Logout dari admin." << endl;
                         break;
                     }
@@ -108,7 +120,7 @@ int main()
                     }
                     }
 
-                    if (pilihanAdmin == 6)
+                    if (pilihanAdmin == 7)
                     {
                         break;
                     }
@@ -130,14 +142,15 @@ int main()
             cin >> password;
             if (loginPelanggan(username, password))
             {
-                cout << "Login berhasil sebagai pelanggan." << endl;
+                cout << "Halo " << username << " Selamat Datang";
                 while (true)
                 {
                     cout << "\nMenu Pelanggan:" << endl;
                     cout << "1. Pesan menu" << endl;
-                    cout << "2. Lihat pesanan anda" << endl;
-                    cout << "3. Bayar" << endl;
-                    cout << "4. Logout" << endl;
+                    cout << "2. Tampilkan Daftar Menu" << endl;
+                    cout << "3. Lihat pesanan anda" << endl;
+                    cout << "4. Bayar" << endl;
+                    cout << "5. Logout" << endl;
                     cout << "Pilih menu: ";
 
                     int pilihanPelanggan;
@@ -193,8 +206,19 @@ int main()
                         }
                         break;
                     }
-
                     case 2:
+                    {
+                        system("CLS");
+                        if (daftarBarang.empty())
+                        {
+                            cout << "Menu tidak tersedia" << endl;
+                            break;
+                        }
+                        tampilkanDaftarBarang(daftarBarang);
+                        cout << endl;
+                        break;
+                    }
+                    case 3:
                     {
                         system("CLS");
                         // Mencari antrian kasir yang sesuai dengan nama pelanggan
@@ -220,7 +244,7 @@ int main()
                         break;
                     }
 
-                    case 3:
+                    case 4:
                     {
                         system("CLS");
                         if (daftarAntrian.empty())
@@ -286,7 +310,7 @@ int main()
                         }
                         break;
                     }
-                    case 4:
+                    case 5:
                     {
                         system("CLS");
                         cout << "Logout dari pelanggan." << endl;
@@ -299,7 +323,7 @@ int main()
                     }
                     }
 
-                    if (pilihanPelanggan == 4)
+                    if (pilihanPelanggan == 5)
                     {
                         break;
                     }

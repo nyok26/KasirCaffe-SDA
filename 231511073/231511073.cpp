@@ -49,6 +49,51 @@ void tambahBarang(vector<Barang>& daftarBarang) {
     cout << "Menu berhasil ditambahkan." << endl;
 }
 
+//fungsi untuk menghapus barang
+void hapusBarang(vector<Barang>& daftarBarang, const vector<AntrianKasir>& daftarAntrian) {
+    if (daftarBarang.empty()) {
+        cout << "Tidak ada menu yang dapat dihapus." << endl;
+        return;
+    }
+
+    tampilkanDaftarBarang(daftarBarang);
+
+    int nomorBarang;
+    cout << "Masukkan nomor menu yang ingin dihapus: ";
+    cin >> nomorBarang;
+
+    if (nomorBarang < 1 || nomorBarang > static_cast<int>(daftarBarang.size())) {
+        cout << "Nomor menu tidak valid." << endl;
+        return;
+    }
+
+    // Cek apakah ada pelanggan yang memilih menu tersebut
+    bool menuDipilih = false;
+    for (const auto& antrian : daftarAntrian) {
+        Pelanggan* current = antrian.head;
+        while (current != nullptr) {
+            for (const auto& barang : current->keranjangBelanja) {
+                if (barang.nama == daftarBarang[nomorBarang - 1].nama) {
+                    menuDipilih = true;
+                    break;
+                }
+            }
+            if (menuDipilih) break;
+            current = current->next;
+        }
+        if (menuDipilih) break;
+    }
+
+    if (menuDipilih) {
+        cout << "Menu tidak dapat dihapus karena ada pelanggan yang telah memilihnya." << endl;
+        return;
+    }
+
+    // Hapus menu dari daftarBarang
+    daftarBarang.erase(daftarBarang.begin() + nomorBarang - 1);
+    cout << "Menu berhasil dihapus." << endl;
+}
+
 // Fungsi untuk login admin
 bool loginAdmin(const string &username, const string &password) {
     ifstream file("Assets/admin.txt");
