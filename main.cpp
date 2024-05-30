@@ -95,7 +95,7 @@ int main()
                             break;
                         }
                         cout << "Daftar kasir yang tersedia:" << endl;
-                        for (int i = 1; i < daftarAntrian.size(); ++i)
+                        for (int i = 0; i < daftarAntrian.size(); ++i)
                         {
                             cout << i << ". " << daftarAntrian[i].namaKasir << endl;
                         }
@@ -104,7 +104,7 @@ int main()
                     case 6:
                     {
                         system("CLS");
-                        hapusBarang(daftarBarang, daftarAntrian);
+                        hapusBarang(daftarBarang);
                         break;
                     }
                     case 7:
@@ -161,51 +161,79 @@ int main()
                     case 1:
                     {
                         system("CLS");
+
+                        // Periksa apakah daftarBarang kosong
+                        if (daftarBarang.empty())
+                        {
+                            cout << "Tidak ada menu yang tersedia." << endl;
+                            break;
+                        }
+
+                        // Tampilkan daftar menu
+                        cout << "Daftar Menu yang tersedia:" << endl;
+                        tampilkanDaftarBarang(daftarBarang);
+
+                        vector<Barang> keranjangBelanja;
+                        while (true)
+                        {
+                            int nomorBarang;
+                            cout << "Masukkan nomor Menu yang ingin Anda beli (0 untuk selesai): ";
+                            cin >> nomorBarang;
+
+                            if (nomorBarang == 0)
+                            {
+                                break; // Keluar dari loop jika pelanggan memilih untuk selesai
+                            }
+                            else if (nomorBarang < 1 || nomorBarang > daftarBarang.size())
+                            {
+                                cout << "Menu tidak ditemukan." << endl;
+                                continue; // Kembali ke pengulangan berikutnya dalam loop
+                            }
+
+                            // Tambahkan barang ke keranjang belanja
+                            Barang barangDibeli = daftarBarang[nomorBarang - 1];
+                            keranjangBelanja.push_back(barangDibeli);
+                            cout << "Menu berhasil ditambahkan ke keranjang." << endl;
+                        }
+
+                        // Periksa apakah daftarAntrian kosong
                         if (daftarAntrian.empty())
                         {
                             cout << "Tidak ada kasir yang tersedia." << endl;
                             break;
                         }
+
+                        // Tampilkan daftar kasir dengan jumlah antrian
                         cout << "Daftar kasir yang tersedia:" << endl;
                         for (int i = 0; i < daftarAntrian.size(); ++i)
                         {
-                            cout << i << ". " << daftarAntrian[i].namaKasir << endl;
+                            int jumlahAntrian = 0;
+                            Pelanggan *current = daftarAntrian[i].head;
+                            while (current != nullptr)
+                            {
+                                jumlahAntrian++;
+                                current = current->next;
+                            }
+                            cout << i << ". " << daftarAntrian[i].namaKasir << " (Jumlah antrian: " << jumlahAntrian << ")" << endl;
                         }
+
+                        cout << "Masukkan nomor kasir yang ingin Anda pilih untuk pembayaran: ";
                         int nomorKasir;
-                        cout << "Masukkan nomor kasir yang ingin Anda pilih: ";
                         cin >> nomorKasir;
+
                         if (nomorKasir < 0 || nomorKasir >= daftarAntrian.size())
                         {
                             cout << "Kasir tidak ditemukan." << endl;
                             break;
                         }
 
-                        cout << "Daftar Menu yang tersedia:" << endl;
-                        tampilkanDaftarBarang(daftarBarang);
-
-                        while (true)
-                        {
-                            int nomorBarang;
-                            cout << "Masukkan nomor Menu yang ingin Anda beli (0 untuk selesai): ";
-                            cin >> nomorBarang;
-                            if (nomorBarang == 0)
-                            {
-                                break; // Keluar dari loop jika pelanggan memilih untuk selesai
-                            }
-                            else if (nomorBarang < 0 || nomorBarang > daftarBarang.size())
-                            {
-                                cout << "Menu tidak ditemukan." << endl;
-                                continue; // Kembali ke pengulangan berikutnya dalam loop
-                            }
-
-                            // Copy barang ke keranjang belanja pelanggan pada kasir yang dipilih
-                            Barang barangDibeli = daftarBarang[nomorBarang - 1];
-                            Pelanggan pelanggan = {username, {barangDibeli}, nullptr};
-                            tambahPelangganKeAntrian(daftarAntrian[nomorKasir], pelanggan);
-                            cout << "Menu berhasil ditambahkan ke keranjang." << endl;
-                        }
+                        // Tambahkan pelanggan ke antrian kasir yang dipilih
+                        Pelanggan pelanggan = {username, keranjangBelanja, nullptr};
+                        tambahPelangganKeAntrian(daftarAntrian[nomorKasir], pelanggan);
+                        cout << "Pesanan Anda berhasil ditambahkan ke antrian." << endl;
                         break;
                     }
+
                     case 2:
                     {
                         system("CLS");
@@ -249,67 +277,84 @@ int main()
                         system("CLS");
                         if (daftarAntrian.empty())
                         {
-                            cout << "Anda belum memesan menu apapun";
+                            cout << "Anda belum memesan menu apapun" << endl;
+                            break;
                         }
+
+                        bool found = false;    // Untuk melacak apakah pelanggan ditemukan
+                        int posisiAntrian = 0; // Untuk melacak posisi pelanggan dalam antrian
+
                         for (AntrianKasir &antrian : daftarAntrian)
                         {
                             Pelanggan *current = antrian.head;
                             Pelanggan *prev = nullptr;
+
                             while (current != nullptr)
                             {
+                                posisiAntrian++;
+
                                 if (current->nama == username)
                                 {
-                                    double totalHarga = 0.0;
-                                    while (true)
+                                    found = true;
+
+                                    if (current == antrian.head)
                                     {
+                                        double totalHarga = 0.0;
+
                                         cout << "Pesanan anda :" << endl;
                                         for (int i = 0; i < current->keranjangBelanja.size(); ++i)
                                         {
                                             cout << i + 1 << ". " << current->keranjangBelanja[i].nama << " (Rp" << current->keranjangBelanja[i].harga << ")" << endl;
+                                            totalHarga += current->keranjangBelanja[i].harga;
                                         }
-                                        cout << "Masukkan nomor Menu yang ingin Anda Bayar (0 untuk selesai): ";
-                                        int nomorBarang;
-                                        cin >> nomorBarang;
-                                        if (nomorBarang == 0)
-                                        {
-                                            break;
-                                        }
-                                        else if (nomorBarang < 1 || nomorBarang > current->keranjangBelanja.size())
-                                        {
-                                            cout << "Menu tidak ditemukan." << endl;
-                                            continue;
-                                        }
-                                        totalHarga += current->keranjangBelanja[nomorBarang - 1].harga;
-                                        current->keranjangBelanja.erase(current->keranjangBelanja.begin() + (nomorBarang - 1));
-                                    }
 
-                                    cout << "Total harga pesanan anda : Rp" << totalHarga << endl;
-                                    if (current->keranjangBelanja.empty())
+                                        cout << "Total harga pesanan anda : Rp" << totalHarga << endl;
+                                        cout << "Apakah Anda ingin membayar pesanan ini? (y/n): ";
+                                        char konfirmasi;
+                                        cin >> konfirmasi;
+
+                                        if (konfirmasi == 'y')
+                                        {
+                                            if (prev == nullptr)
+                                            {
+                                                antrian.head = current->next;
+                                            }
+                                            else
+                                            {
+                                                prev->next = current->next;
+                                            }
+                                            if (current == antrian.tail)
+                                            {
+                                                antrian.tail = prev;
+                                            }
+                                            delete current;
+                                            cout << "Anda telah bayar dan dihapus dari antrian." << endl;
+                                        }
+                                    }
+                                    else
                                     {
-                                        // Hapus pelanggan dari antrian
-                                        if (prev == nullptr)
-                                        {
-                                            antrian.head = current->next;
-                                        }
-                                        else
-                                        {
-                                            prev->next = current->next;
-                                        }
-                                        if (current == antrian.tail)
-                                        {
-                                            antrian.tail = prev;
-                                        }
-                                        delete current;
-                                        cout << "Anda telah bayar dan dihapus dari antrian." << endl;
+                                        cout << "Pembayaran hanya bisa dilakukan oleh pelanggan di antrian pertama." << endl;
+                                        cout << "Anda berada di antrian ke-" << posisiAntrian << " dalam antrian kasir."  << antrian.namaKasir << endl;
                                     }
                                     break;
                                 }
+
                                 prev = current;
                                 current = current->next;
                             }
+
+                            if (found)
+                                break;
                         }
+
+                        if (!found)
+                        {
+                            cout << "Pelanggan tidak ditemukan dalam antrian." << endl;
+                        }
+
                         break;
                     }
+
                     case 5:
                     {
                         system("CLS");

@@ -13,6 +13,6 @@
 void tampilkanAntrian(const vector<AntrianKasir> &daftarAntrian, const vector<Barang> &daftarBarang);
 void tambahBarang(vector<Barang> &daftarBarang);
 bool loginAdmin(const string &username, const string &password);
-void hapusBarang(vector<Barang>& daftarBarang, const vector<AntrianKasir>& daftarAntrian);
+void hapusBarang(vector<Barang>& daftarBarang);
 
 #endif
